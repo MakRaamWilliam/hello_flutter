@@ -1,13 +1,18 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:hello_flutter/BMICalculator.dart';
-import 'package:hello_flutter/CounterScreen.dart';
-import 'package:hello_flutter/HomeScreen.dart';
-import 'package:hello_flutter/Messenger.dart';
-import 'package:hello_flutter/loginScreen.dart';
+import 'package:hello_flutter/layout/to_do_app/home_screen.dart';
+import 'package:hello_flutter/modules/bmi_app/BMICalculator.dart';
+import 'package:hello_flutter/modules/counter_app/CounterScreen.dart';
+import 'package:hello_flutter/layout/basic_apps/HomeScreen.dart';
+import 'package:hello_flutter/modules/messenger_app/Messenger.dart';
+import 'package:hello_flutter/modules/log_in_app/loginScreen.dart';
+import 'package:hello_flutter/shared/bloc_observer.dart';
 
 void main() {
+  Bloc.observer = MyBlocObserver();
+
   runApp( MaterialApp(
-    home: HomeScreen()
+    home: CounterScreen(),
   )
   );
 }

@@ -60,24 +60,29 @@ class Messenger extends StatelessWidget {
           SizedBox(
             width: 20.0,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "${name}",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0
-                ),
-              ),
-              Container(
-                width: 300.0,
-                child: Text(
-                  "This is a message from Abdualh Mansour it is long  ",
+          Container(
+            width: 300.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${name}",
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0
+                  ),
                 ),
-              ),
-            ],
+                Container(
+                  child: Text(
+                    "This is a message from Abdullah Mansour it is long",
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+              ],
+            ),
           )
 
         ],

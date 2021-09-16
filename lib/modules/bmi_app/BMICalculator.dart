@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:hello_flutter/BMIResults.dart';
+import 'package:hello_flutter/modules/bmi_app/BMIResults.dart';
+import 'package:hello_flutter/shared/components/components.dart';
 
 class BMICalculator extends StatefulWidget{
   @override
@@ -175,13 +176,13 @@ class _BMICalculatorState extends State<BMICalculator> {
                                 Text("Weight",
                                 style:TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 30.0
+                                  fontSize: 20.0
                                 )
                                   ,),
                                 Text("${weight}"
                                   ,style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 30.0
+                                      fontSize: 20.0
                                   ),),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -233,13 +234,13 @@ class _BMICalculatorState extends State<BMICalculator> {
                                 Text("Age",
                                   style:TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 30.0
+                                      fontSize: 20.0
                                   )
                                   ,),
                                 Text("${age}"
                                   ,style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 30.0
+                                      fontSize: 20.0
                                   ),),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -278,19 +279,12 @@ class _BMICalculatorState extends State<BMICalculator> {
                 ),
               ),
             ),
-            MaterialButton(
-              color: Colors.blue,
-                child: Text(
-                  "Calculate",
-                  style: TextStyle(
-                    fontSize: 35.0,
-                    color: Colors.white
-                  ),
-                ),
-                onPressed: (){
+            defaultButton(
+               text: "Calculate",
+               onPressed:  (){
                  Navigator.push(
-                   context,
-                   MaterialPageRoute(
+                     context,
+                     MaterialPageRoute(
                        builder: (context){
                          return BMIResults(
                            isMale: isMale,

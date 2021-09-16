@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hello_flutter/BMICalculator.dart';
-import 'package:hello_flutter/CounterScreen.dart';
-import 'package:hello_flutter/Messenger.dart';
-import 'package:hello_flutter/loginScreen.dart';
+import 'package:hello_flutter/modules/bmi_app/BMICalculator.dart';
+import 'package:hello_flutter/modules/counter_app/CounterScreen.dart';
+import 'package:hello_flutter/modules/messenger_app/Messenger.dart';
+import 'package:hello_flutter/modules/log_in_app/loginScreen.dart';
+import 'package:hello_flutter/shared/components/components.dart';
+
 
 class HomeScreen extends StatelessWidget{
   @override
@@ -37,53 +39,38 @@ class HomeScreen extends StatelessWidget{
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                MaterialButton(
-                  color: Colors.blueAccent,
-                    onPressed: (){
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context){
-                                return loginScreen();
-                              }
-                          )
-                      );
-                    },
-                  child: Text(
-                    "Log In App",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 40.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 15.0,),
-                MaterialButton(
-                  color: Colors.blueAccent,
+                defaultButton(
+                  text: "Log In App",
                   onPressed: (){
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context){
+                              return loginScreen();
+                            }
+                        )
+                    );
+                  },
+                ),
+                SizedBox(height: 15.0,),
+                defaultButton(
+                  text: "Counter App",
+                  onPressed:() {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) {
                               return CounterScreen();
                             }
                         )
                     );
                   },
-                  child: Text(
-                    "Counter App",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 40.0,
-                      color: Colors.white,
-                    ),
-                  ),
+
                 ),
                 SizedBox(height: 15.0,),
-                MaterialButton(
-                  color: Colors.blueAccent,
-                  onPressed: (){
+                defaultButton(
+                  text: "Messenger App",
+                  onPressed:  (){
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -93,18 +80,10 @@ class HomeScreen extends StatelessWidget{
                         )
                     );
                   },
-                  child: Text(
-                    "Messenger App",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 40.0,
-                      color: Colors.white,
-                    ),
-                  ),
                 ),
                 SizedBox(height: 15.0,),
-                MaterialButton(
-                  color: Colors.blueAccent,
+                defaultButton(
+                  text: "BMI App",
                   onPressed: (){
                     Navigator.push(
                         context,
@@ -115,16 +94,7 @@ class HomeScreen extends StatelessWidget{
                         )
                     );
                   },
-                  child: Text(
-                    "BMI App",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 40.0,
-                      color: Colors.white,
-                    ),
-                  ),
                 ),
-
               ],
             ),
           ),
