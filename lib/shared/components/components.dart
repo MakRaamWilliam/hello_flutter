@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hello_flutter/modules/to_do_app/cubit/cubit.dart';
 
 
 Widget defaultButton({
@@ -99,16 +101,29 @@ Widget defaultFormField({
     );
 
 Widget TaskItem({
+  required int id,
   required String title,
   required String time,
   required String date,
+  required AppCubit cubit,
 }){
 
   return
     Padding(
       padding: const EdgeInsets.all(10.0),
       child: Row(
+        mainAxisSize: MainAxisSize.max,
         children: [
+           Checkbox(
+             value: false,
+             onChanged: (newValue) {
+               cubit.updateTasksTable(title: title, time: time, date: date,
+                   newstatus: "done",
+                   oldstatus: "new",
+                 id: id,
+               );
+             }
+           ),
           CircleAvatar(
             radius: 40.0,
             child: Center(
@@ -119,22 +134,225 @@ Widget TaskItem({
             // backgroundColor: Colors.blueAccent,
           ),
           SizedBox(width: 15.0,),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "${title}",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30.0,
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${title}",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25.0,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
+                Text(
+                    "${date}"
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    cubit.deleteTasksTable(
+                      id: id,
+                        title: title,
+                        time: time,
+                        date: date,
+                        status: "new"
+                    );
+                  },
+                  icon: Icon(Icons.delete),
+                ),
+
+                IconButton(
+                    onPressed: (){
+                      cubit.updateTasksTable(title: title, time: time, date: date,
+                          newstatus: "archive",
+                          oldstatus: "new",
+                          id:id,
+                      );
+
+                    },
+                    icon: Icon(Icons.archive)
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+
+}
+
+Widget DoneTaskItem({
+  required int id,
+  required String title,
+  required String time,
+  required String date,
+  required AppCubit cubit,
+}){
+
+  return
+    Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          IconButton(
+              onPressed: () {
+                cubit.deleteTasksTable(
+                    id: id,
+                    title: title,
+                    time: time,
+                    date: date,
+                    status: "done"
+                );
+              },
+            icon: Icon(Icons.delete),
+          ),
+          CircleAvatar(
+            radius: 40.0,
+            child: Center(
+              child: Text(
+                "$time",
               ),
-              Text(
-                  "${date}"
+            ),
+            // backgroundColor: Colors.blueAccent,
+          ),
+          SizedBox(width: 15.0,),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${title}",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25.0,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                    "${date}"
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: (){
+                      cubit.updateTasksTable(title: title, time: time, date: date,
+                          newstatus: "archive",
+                          oldstatus: "done",
+                        id: id,
+                      );
+
+                    },
+                    icon: Icon(Icons.archive)
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+
+}
+
+Widget ArchieveTaskItem({
+  required int id,
+  required String title,
+  required String time,
+  required String date,
+  required AppCubit cubit,
+}){
+
+  return
+    Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          IconButton(
+            onPressed: () {
+              cubit.updateTasksTable(
+                id: id,
+                  title: title,
+                  time: time,
+                  date: date,
+                  newstatus: "new",
+                oldstatus: "archive"
+              );
+            },
+            icon: Icon(Icons.add),
+          ),
+          CircleAvatar(
+            radius: 40.0,
+            child: Center(
+              child: Text(
+                "$time",
               ),
-            ],
-          )
+            ),
+            // backgroundColor: Colors.blueAccent,
+          ),
+          SizedBox(width: 15.0,),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${title}",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25.0,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                    "${date}"
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    cubit.deleteTasksTable(
+                        id: id,
+                        title: title,
+                        time: time,
+                        date: date,
+                        status: "archive"
+                    );
+                  },
+                  icon: Icon(Icons.delete),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

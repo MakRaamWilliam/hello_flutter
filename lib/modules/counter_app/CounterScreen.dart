@@ -6,6 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 
+ String str = "Hello";
+ bool isBottomSheetShow = false;
+ var scaffoldKey = GlobalKey<ScaffoldState>();
+
 class CounterScreen extends StatelessWidget{
 
   @override
@@ -26,6 +30,42 @@ class CounterScreen extends StatelessWidget{
                           ),
                           centerTitle: true,
                           ),
+                          floatingActionButton: FloatingActionButton(
+                          onPressed: () {
+                            if (isBottomSheetShow) {
+                              Navigator.pop(context);
+                              isBottomSheetShow = false;
+                            } else {
+                              isBottomSheetShow = true;
+                              scaffoldKey.currentState!.showBottomSheet(
+                                      (context) => Column(
+                                        children: [
+                                          TextButton(
+                                              onPressed: (){
+                                                CounterCubit.getInstance(context).minusCounter();
+                                                str = "welcome";
+                                              },
+                                              child: Text("-",
+                                                style: TextStyle(
+                                                    fontSize: 30.0
+                                                ),)),
+                                          TextButton(
+                                              onPressed: (){
+                                                CounterCubit.getInstance(context).plusCounter();
+
+                                              },
+                                              child: Text("+",
+                                                style: TextStyle(
+                                                    fontSize: 30.0
+                                                ),)),
+
+                                        ],
+                                      )
+                              );
+                            }
+                          },
+                            child: Icon(Icons.edit),
+                          ),
                           body: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,6 +78,7 @@ class CounterScreen extends StatelessWidget{
                           TextButton(
                           onPressed: (){
                             CounterCubit.getInstance(context).minusCounter();
+                            str = "welcome";
                           },
                           child: Text("-",
                           style: TextStyle(
@@ -59,10 +100,11 @@ class CounterScreen extends StatelessWidget{
                           style: TextStyle(
                           fontSize: 30.0
                           ),)),
-
                           ],
                           ),
-                          )
+                          ),
+                          Text("$str"),
+
                           ],
                           ),
                     )
