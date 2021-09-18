@@ -12,7 +12,7 @@ void main() {
   Bloc.observer = MyBlocObserver();
 
   runApp( MaterialApp(
-    home: CounterScreen(),
+    home: home_screen(),
   )
   );
 }
