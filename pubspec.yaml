@@ -31,6 +31,11 @@ dependencies:
   flutter_conditional_rendering: ^2.0.0
   bloc: ^7.1.0
   flutter_bloc: ^7.1.0
+  dio: ^4.0.0
+  hexcolor: ^2.0.5
+  webview_flutter: ^2.0.14
+  shared_preferences: ^2.0.8
+  smooth_page_indicator: ^1.0.0+2
   sqflite:
 
 dev_dependencies:
@@ -48,7 +53,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - images/
+    - assets/images/
 
 
   # To add assets to your application, add an assets section, like this:

@@ -13,10 +13,10 @@ class done_tasks extends StatelessWidget{
 
 
 
-    return BlocConsumer<AppCubit, ToDoStates>(
+    return BlocConsumer<ToDoAppCubit, ToDoStates>(
         listener: (BuildContext context, ToDoStates state) {},
         builder: (BuildContext context, ToDoStates state) {
-          var taskslist = AppCubit.getInstance(context).taskslist;
+          var taskslist = ToDoAppCubit.getInstance(context).taskslist;
 
           return Conditional.single(
               context: context,
@@ -50,7 +50,7 @@ class done_tasks extends StatelessWidget{
                     title: taskslist[index]["title"],
                     date: taskslist[index]["time"],
                     time: taskslist[index]["date"],
-                    cubit: AppCubit.getInstance(context),
+                    cubit: ToDoAppCubit.getInstance(context),
                   );
                 },
                 separatorBuilder: (context, index) =>

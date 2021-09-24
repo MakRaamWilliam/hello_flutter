@@ -1,14 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hello_flutter/modules/to_do_app/archived_tasks.dart';
 import 'package:hello_flutter/modules/to_do_app/cubit/cubit.dart';
 import 'package:hello_flutter/modules/to_do_app/cubit/states.dart';
-import 'package:hello_flutter/modules/to_do_app/done_tasks.dart';
-import 'package:hello_flutter/modules/to_do_app/tasks.dart';
 import 'package:hello_flutter/shared/components/components.dart';
-import 'package:hello_flutter/shared/components/constans.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:flutter_conditional_rendering/flutter_conditional_rendering.dart';
 
 
@@ -27,12 +22,12 @@ class home_screen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return BlocProvider(
-        create: (BuildContext context) => AppCubit()..createToDoDataBase("new"),
+        create: (BuildContext context) => ToDoAppCubit()..createToDoDataBase("new"),
 
-        child: BlocConsumer<AppCubit, ToDoStates>(
+        child: BlocConsumer<ToDoAppCubit, ToDoStates>(
             listener: (BuildContext context, ToDoStates state) {},
             builder: (BuildContext context, ToDoStates state) {
-              AppCubit cubit = AppCubit.getInstance(context);
+              ToDoAppCubit cubit = ToDoAppCubit.getInstance(context);
 
               return Scaffold(
                   key: scaffoldKey,

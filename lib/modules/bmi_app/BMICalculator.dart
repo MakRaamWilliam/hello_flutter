@@ -44,7 +44,7 @@ class _BMICalculatorState extends State<BMICalculator> {
                             child: Column(
                               children: [
                                 Image(
-                                  image: AssetImage('images/female.png'),
+                                  image: AssetImage('assets/images/female.png'),
                                     fit: BoxFit.fitHeight,
                                      height: 100.0,
                                       width: 100.0,
@@ -79,7 +79,7 @@ class _BMICalculatorState extends State<BMICalculator> {
                             child: Column(
                               children: [
                                 Image(
-                                  image: AssetImage('images/male.png'),
+                                  image: AssetImage('assets/images/male.png'),
                                   fit: BoxFit.fitHeight,
                                   height: 100.0,
                                   width: 100.0,
@@ -282,17 +282,14 @@ class _BMICalculatorState extends State<BMICalculator> {
             defaultButton(
                text: "Calculate",
                onPressed:  (){
-                 Navigator.push(
+                 NavgPushTo(
                      context,
-                     MaterialPageRoute(
-                       builder: (context){
-                         return BMIResults(
-                           isMale: isMale,
-                           age: age,
-                           weight: weight,
-                         );
-                       },
-                   )
+                     BMIResults(
+                       isMale: isMale,
+                       age: age,
+                       weight: weight,
+                     )
+
                  );
             })
           ],
