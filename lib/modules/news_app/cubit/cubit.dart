@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_flutter/modules/news_app/cubit/states.dart';
-import 'package:hello_flutter/shared/network/remote/DioHelper.dart';
+import 'package:hello_flutter/shared/network/remote/news_dio_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../busienessScreen.dart';
@@ -42,7 +42,7 @@ class newsCubit extends Cubit<newsStates>{
 
     if(businessList.length == 0)
     {
-      DioHelper.getData(
+      NewsDioHelper.getData(
         url: 'v2/top-headlines',
         query:
         {
@@ -78,7 +78,7 @@ class newsCubit extends Cubit<newsStates>{
 
     if(sportsList.length == 0)
     {
-      DioHelper.getData(
+      NewsDioHelper.getData(
         url: 'v2/top-headlines',
         query:
         {
@@ -114,7 +114,7 @@ class newsCubit extends Cubit<newsStates>{
 
     if(scienceList.length == 0)
     {
-      DioHelper.getData(
+      NewsDioHelper.getData(
         url: 'v2/top-headlines',
         query:
         {
@@ -148,7 +148,7 @@ class newsCubit extends Cubit<newsStates>{
   {
     emit(NewsGetSearchLoadingState());
 
-      DioHelper.getData(
+      NewsDioHelper.getData(
         url: 'v2/everything',
         query:
         {

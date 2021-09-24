@@ -7,7 +7,7 @@ import 'package:hello_flutter/modules/news_app/searchScreen.dart';
 import 'package:hello_flutter/shared/components/components.dart';
 import 'package:hello_flutter/shared/cubit/cubit.dart';
 import 'package:hello_flutter/shared/network/local/cacheHelper.dart';
-import 'package:hello_flutter/shared/network/remote/DioHelper.dart';
+import 'package:hello_flutter/shared/network/remote/news_dio_helper.dart';
 
 
 var scaffoldKey = GlobalKey<ScaffoldState>();

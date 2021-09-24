@@ -1,7 +1,6 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_flutter/modules/shop_app/shop_log_in.dart';
 import 'package:hello_flutter/shared/components/components.dart';
 import 'package:hello_flutter/shared/styles/colors.dart';
@@ -59,6 +58,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           controller: pageController,
           itemBuilder: (context,index) => getPageViewItem(boardingList[index],boardingList.length),
           itemCount: boardingList.length,
+          physics: BouncingScrollPhysics(),
           onPageChanged: (int index){
             print(isLast);
             setState(() {

@@ -22,7 +22,10 @@ class _loginScreenState extends State<loginScreen> {
 
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Text("Shop App"),
+        ),
+
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(

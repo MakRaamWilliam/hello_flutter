@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
-class DioHelper
+class NewsDioHelper
 {
    static late Dio dio;
 

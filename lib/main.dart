@@ -15,14 +15,18 @@ import 'package:hello_flutter/shared/bloc_observer.dart';
 import 'package:hello_flutter/shared/cubit/cubit.dart';
 import 'package:hello_flutter/shared/cubit/states.dart';
 import 'package:hello_flutter/shared/network/local/cacheHelper.dart';
-import 'package:hello_flutter/shared/network/remote/DioHelper.dart';
+import 'package:hello_flutter/shared/network/remote/news_dio_helper.dart';
+import 'package:hello_flutter/shared/network/remote/shop_dio_helper.dart';
 import 'package:hello_flutter/shared/styles/themes.dart';
-import 'package:hexcolor/hexcolor.dart';
+
+import 'package:hello_flutter/modules/shop_app/on_boarding_screen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  DioHelper.init();
+  NewsDioHelper.init();
+  ShopDioHelper.init();
   await CacheHelper.init();
   Bloc.observer = MyBlocObserver();
 
@@ -52,7 +56,7 @@ class MyApp extends StatelessWidget{
                home: Directionality
                  (
                    textDirection: TextDirection.ltr,
-                   child: ShopLayout()
+                   child: OnBoardingScreen()
                ),
                theme: lightTheme,
                darkTheme: darkTheme,
