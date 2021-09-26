@@ -36,6 +36,8 @@ dependencies:
   webview_flutter: ^2.0.14
   shared_preferences: ^2.0.8
   smooth_page_indicator: ^1.0.0+2
+  fluttertoast: ^8.0.8
+  carousel_slider: ^4.0.0
   sqflite:
 
 dev_dependencies:

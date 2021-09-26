@@ -37,7 +37,7 @@ class newsScreen extends StatelessWidget{
           IconButton(
               onPressed: (){
                 AppCubit.getInstance(context).changeDarkTheme();
-                 CacheHelper.putIsDark(key: "isDark",
+                 CacheHelper.putBool(key: "isDark",
                  value: AppCubit.getInstance(context).isDark
                  );
 

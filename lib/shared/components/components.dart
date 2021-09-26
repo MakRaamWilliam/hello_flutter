@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hello_flutter/modules/news_app/webPageScreen.dart';
 import 'package:hello_flutter/modules/to_do_app/cubit/cubit.dart';
 import 'package:hello_flutter/modules/to_do_app/cubit/states.dart';
@@ -127,8 +128,28 @@ void NavgPushToAndFinish(context,Widget widget){
           return widget;
         },
       ),
-       (Route<dynamic> route)=> true,
+       (Route<dynamic> route)=> false,
   );
+
+}
+
+void defaultToast({
+  required String msg,
+  Toast length = Toast.LENGTH_SHORT,
+  Color color = Colors.red,
+  Color textColor = Colors.white,
+  double fontSize = 16.0,
+}) {
+  Fluttertoast.showToast(
+      msg: msg,
+      toastLength: length,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: color,
+      textColor: textColor,
+      fontSize: fontSize
+  );
+
 
 }
 

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_flutter/modules/shop_app/shop_log_in.dart';
 import 'package:hello_flutter/shared/components/components.dart';
+import 'package:hello_flutter/shared/network/local/cacheHelper.dart';
 import 'package:hello_flutter/shared/styles/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -51,6 +52,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Shop App"),
+        actions: [
+          TextButton(
+              onPressed: (){
+                NavgPushToAndFinish(context, ShopLogInScreen());
+                CacheHelper.putBool(key: "isBoarding", value: true);
+              },
+              child: Text("skip")
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -116,6 +126,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             onPressed: (){
               if(isLast){
                 NavgPushToAndFinish(context, ShopLogInScreen());
+                CacheHelper.putBool(key: "isBoarding", value: true);
+
               }else{
                 pageController.nextPage(
                   duration: Duration(
