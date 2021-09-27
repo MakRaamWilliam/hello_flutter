@@ -15,3 +15,10 @@ class ShopLoadingSearchDataState extends ShopStates {}
 class ShopSuccessSearchDataState extends ShopStates {}
 
 class ShopErrorSearchDataState extends ShopStates {}
+
+class ShopLoadingCategoriesState extends ShopStates {}
+
+class ShopSuccessCategoriesState extends ShopStates {}
+
+class ShopErrorCategoriesState extends ShopStates {}
+

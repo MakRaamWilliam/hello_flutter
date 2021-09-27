@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_flutter/layout/shop_app/cubit/states.dart';
+import 'package:hello_flutter/models/shop_model/categories_model.dart';
 import 'package:hello_flutter/models/shop_model/home_model.dart';
 import 'package:hello_flutter/models/shop_model/search_model.dart';
 import 'package:hello_flutter/models/shop_model/search_model.dart';
@@ -33,6 +34,8 @@ class ShopCubit extends Cubit<ShopStates>{
     emit(ShopChangeBottomNavState());
     if(index == 0)
       getHomeData();
+    if(index == 1 )
+      getCategories();
   }
 
   void getHomeData()
@@ -79,5 +82,24 @@ void getSearch(String text){
     });
 
 }
+
+  late CategoriesModel categoriesModel;
+
+  void getCategories() {
+    emit(ShopLoadingCategoriesState());
+
+    ShopDioHelper.getData(
+        url: "categories"
+    ).then((value) {
+      print(value.data);
+      categoriesModel = CategoriesModel.fromJson(value.data);
+      print(categoriesModel.status);
+      emit(ShopSuccessCategoriesState());
+
+    }).catchError((error){
+      emit(ShopErrorCategoriesState());
+    });
+
+  }
 
 }

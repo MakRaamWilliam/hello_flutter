@@ -73,9 +73,12 @@ Widget defaultFormField({
   IconData? suffix,
   Function()? suffixPressed,
   bool isClickable = true,
+  bool readOnly = false,
+
 }) =>
     TextFormField(
       controller: controller,
+      readOnly: readOnly ,
       keyboardType: type,
       obscureText: isPassword,
       enabled: isClickable,

@@ -56,13 +56,6 @@ class ProductsScreen extends StatelessWidget
             scrollDirection: Axis.horizontal,
           ),
         ),
-        TextButton(
-            onPressed: (){
-              CacheHelper.removeData(key: "isToken");
-              NavgPushToAndFinish(context, ShopLogInScreen());
-            },
-            child: Text("Log out")
-        ),
         SizedBox(
           height: 10.0,
         ),
@@ -134,6 +127,7 @@ class ProductsScreen extends StatelessWidget
                   ),
                 ),
               ),
+
           ],
         ),
         Padding(

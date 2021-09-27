@@ -1,3 +1,5 @@
+import 'package:hello_flutter/shared/components/constans.dart';
+
 class ShopLoginModel
 {
   late bool status;
@@ -23,7 +25,6 @@ class UserData
   late String image;
   late int points;
   late int credit;
-  late String token;
 
   // named constructor
   UserData.fromJson(Map<String, dynamic> json)
@@ -35,6 +36,6 @@ class UserData
     image = json['image'];
     points = json['points'];
     credit = json['credit'];
-    token = json['token'];
+    Token = json['token'];
   }
 }

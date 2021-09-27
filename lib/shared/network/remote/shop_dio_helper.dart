@@ -5,6 +5,7 @@ class ShopDioHelper
 {
   static late Dio dio;
 
+
   static init() {
     dio = Dio(
       BaseOptions(
@@ -37,6 +38,8 @@ class ShopDioHelper
   static Future<Response> postData({
     required String url,
     required Map<String,dynamic> data,
+    String? token
+
   }) async
   {
     return await dio.post(

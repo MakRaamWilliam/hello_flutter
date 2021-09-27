@@ -34,6 +34,10 @@ class ShopLogInScreen extends StatelessWidget{
                 color: Colors.green,
               );
               CacheHelper.putBool(key: "isToken", value: true);
+              CacheHelper.putString(key: "name", value: cubit.shopLoginModel.data!.name);
+              CacheHelper.putString(key: "email", value: cubit.shopLoginModel.data!.email);
+              CacheHelper.putString(key: "phone", value: cubit.shopLoginModel.data!.phone);
+
               NavgPushToAndFinish(context, ShopLayout());
             }else {
               defaultToast(

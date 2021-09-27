@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:hello_flutter/layout/shop_app/cubit/cubit.dart';
 import 'package:hello_flutter/layout/shop_app/cubit/states.dart';
+import 'package:hello_flutter/layout/shop_app/shop_layout.dart';
 import 'package:hello_flutter/models/shop_model/home_model.dart';
 import 'package:hello_flutter/models/shop_model/search_model.dart';
 import 'package:hello_flutter/modules/shop_app/products_screen.dart';
@@ -22,7 +23,15 @@ class SearchScreen extends StatelessWidget{
       builder: (context, state){
         ShopCubit cubit = ShopCubit.getInstance(context);
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_sharp),
+              onPressed: (){
+                // cubit.changeBottom(0);
+                NavgPushToAndFinish(context, ShopLayout());
+              },
+            ),
+          ),
           body:  Column(
             children: [
               defaultFormField(
