@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hello_flutter/layout/shop_app/shop_layout.dart';
-import 'package:hello_flutter/modules/shop_app/log_in_cubit/cubit.dart';
-import 'package:hello_flutter/modules/shop_app/log_in_cubit/states.dart';
-import 'package:hello_flutter/modules/shop_app/products_screen.dart';
-import 'package:hello_flutter/modules/shop_app/register_screen.dart';
+import 'package:hello_flutter/layout/social_app/social_app_layout.dart';
+import 'package:hello_flutter/modules/Social_app/register_screen.dart';
 import 'package:hello_flutter/shared/components/components.dart';
-import 'package:hello_flutter/shared/network/local/cacheHelper.dart';
 
-class ShopLogInScreen extends StatelessWidget{
+import 'log_in_cubit/cubit.dart';
+import 'log_in_cubit/states.dart';
+
+class SocialLogInScreen extends StatelessWidget{
   var emailController = TextEditingController();
 
   var passwordController = TextEditingController();
@@ -23,32 +22,27 @@ class ShopLogInScreen extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return BlocProvider(
-      create: (context)=> ShopLoginCubit(),
+      create: (context)=> SocialLoginCubit(),
 
-      child: BlocConsumer<ShopLoginCubit,ShopLoginStates>(
+      child: BlocConsumer<SocialLoginCubit,SocialLoginStates>(
         listener: (context,state){
-          ShopLoginCubit cubit = ShopLoginCubit.getInstance(context);
-          if(state is ShopLoginSuccessState){
-            if(cubit.shopLoginModel.status ){
-              defaultToast(msg: cubit.shopLoginModel.message,
+          SocialLoginCubit cubit = SocialLoginCubit.getInstance(context);
+          if(state is SocialLoginSuccessState){
+              defaultToast(msg: "log in successful ",
                 color: Colors.green,
               );
-              CacheHelper.putBool(key: "isToken", value: true);
-              CacheHelper.putString(key: "name", value: cubit.shopLoginModel.data!.name);
-              CacheHelper.putString(key: "email", value: cubit.shopLoginModel.data!.email);
-              CacheHelper.putString(key: "phone", value: cubit.shopLoginModel.data!.phone);
+              NavgPushToAndFinish(context, SocialLayout());
 
-              NavgPushToAndFinish(context, ShopLayout());
-            }else {
+            }else if(state is SocialLoginErrorState) {
               defaultToast(
-                msg: cubit.shopLoginModel.message,
+                msg: cubit.errorMsg,
                 color: Colors.red,
+                length: Toast.LENGTH_LONG,
               );
-            }
           }
         },
         builder: (context,state){
-          ShopLoginCubit cubit = ShopLoginCubit.getInstance(context);
+          SocialLoginCubit cubit = SocialLoginCubit.getInstance(context);
             return Scaffold(
               body: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -89,7 +83,7 @@ class ShopLogInScreen extends StatelessWidget{
                             if(formkeys.currentState!.validate()) {
                               print("Email: " + emailController.text);
                               print("Password:" + passwordController.text);
-                              ShopLoginCubit.getInstance(context).loginClick(
+                              SocialLoginCubit.getInstance(context).loginClick(
                                   email: emailController.text,
                                   password: passwordController.text
                               );
@@ -102,7 +96,7 @@ class ShopLogInScreen extends StatelessWidget{
                         ),
                         Conditional.single(
                           context: context,
-                          conditionBuilder: (context)=> state is! ShopLoginLoadingState,
+                          conditionBuilder: (context)=> state is! SocialLoginLoadingState,
                           widgetBuilder: (context)=>
                            defaultButton(
                             text: "Log In",
@@ -110,7 +104,7 @@ class ShopLogInScreen extends StatelessWidget{
                               if(formkeys.currentState!.validate()) {
                                 print("Email: " + emailController.text);
                                 print("Password:" + passwordController.text);
-                                ShopLoginCubit.getInstance(context).loginClick(
+                                SocialLoginCubit.getInstance(context).loginClick(
                                     email: emailController.text,
                                     password: passwordController.text
                                 );
