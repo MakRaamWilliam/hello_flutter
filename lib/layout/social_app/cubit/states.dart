@@ -16,11 +16,11 @@ class SocialSuccessUserDataState extends SocialStates {}
 
 class SocialErrorUserDataState extends SocialStates {}
 
-class SocialLoadingSearchDataState extends SocialStates {}
+class SocialLoadingAllUserDataState extends SocialStates {}
 
-class SocialSuccessSearchDataState extends SocialStates {}
+class SocialSuccessAllUserDataState extends SocialStates {}
 
-class SocialErrorSearchDataState extends SocialStates {}
+class SocialErrorAllUserDataState extends SocialStates {}
 
 class SocialChangeProfileSuccess extends SocialStates{}
 
@@ -59,3 +59,9 @@ class SocialLikePostError extends SocialStates{}
 class SocialCommentPostSuccess extends SocialStates{}
 
 class SocialCommentPostError extends SocialStates{}
+
+class SocialSendMessageErrorState extends SocialStates{}
+
+class SocialSendMessageSuccessState extends SocialStates{}
+
+class SocialGetMessagesSuccessState extends SocialStates{}

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_flutter/layout/social_app/cubit/states.dart';
+import 'package:hello_flutter/models/social_app/message_data.dart';
 import 'package:hello_flutter/models/social_app/user_data.dart';
 import 'package:hello_flutter/modules/social_app/create_post.dart';
 import 'package:hello_flutter/modules/social_app/feed_news.dart';
@@ -34,6 +35,8 @@ class SocialCubit extends Cubit<SocialStates>{
     emit(SocialChangeBottomNavState());
     if(index == 0) {
       getUSerData();
+    }else if(index  == 1){
+      getAllUSerData();
     }
   }
 
@@ -46,6 +49,9 @@ class SocialCubit extends Cubit<SocialStates>{
   List<int> postsLikes = [];
   List<bool> myLikes = [];
   List<int> postsComments =[];
+  List<SocialUserData> users = [];
+  List<String> usersId = [];
+
   void getUSerData(){
      emit(SocialLoadingUserDataState());
      getPosts().then(
@@ -62,6 +68,92 @@ class SocialCubit extends Cubit<SocialStates>{
      });
 
  }
+
+  void getAllUSerData(){
+    emit(SocialLoadingAllUserDataState());
+          FirebaseFirestore.instance.collection("users")
+              .get()
+              .then((value) {
+                users = [];
+                usersId = [];
+                for(var doc in value.docs){
+                  if(doc.id != Uid){
+                    users.add( SocialUserData.fromJson(doc.data()));
+                    usersId.add(doc.id);
+                  }
+                }
+                // print(users);
+                emit(SocialSuccessAllUserDataState());
+          })
+              .catchError((error){
+                print(error.toString());
+                emit(SocialErrorAllUserDataState());
+          });
+
+  }
+
+  List<SocialMessageData> messages = [];
+
+  void sendMessage({
+   required String mess,
+    required String dateTime,
+    required String receiverId,
+}){
+    SocialMessageData messageData = SocialMessageData(
+        senderId: Uid,
+        receiverId: receiverId,
+        text: mess, dateTime: dateTime);
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(Uid)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .add(messageData.getMessageData())
+        .then((value) {
+      emit(SocialSendMessageSuccessState());
+    }).catchError((error) {
+      emit(SocialSendMessageErrorState());
+    });
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(receiverId)
+        .collection('chats')
+        .doc(Uid)
+        .collection('messages')
+        .add(messageData.getMessageData())
+        .then((value) {
+      emit(SocialSendMessageSuccessState());
+    }).catchError((error) {
+      emit(SocialSendMessageErrorState());
+    });
+
+  }
+
+  void getAllMessages({
+    required String receiverId,
+  }) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(Uid)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .orderBy('dateTime')
+        .snapshots()
+        .listen((event) {
+      messages = [];
+
+      event.docs.forEach((element) {
+        messages.add(SocialMessageData.fromJson(element.data()));
+      });
+
+      emit(SocialGetMessagesSuccessState());
+    });
+  }
+
 
   Future<void> getPosts() async{
     postsLikes = [];
@@ -91,7 +183,7 @@ class SocialCubit extends Cubit<SocialStates>{
             myLikes.add(liked);
             if(posts.length == value.docs.length)
               emit(SocialSuccessUserDataState());
-            print(myLikes);
+            // print(myLikes);
 
           });
         });
