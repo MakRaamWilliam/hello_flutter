@@ -1,0 +1,202 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_conditional_rendering/conditional.dart';
+import 'package:hello_flutter/layout/social_app/cubit/cubit.dart';
+import 'package:hello_flutter/layout/social_app/cubit/states.dart';
+import 'package:hello_flutter/models/social_app/message_data.dart';
+import 'package:hello_flutter/models/social_app/user_data.dart';
+import 'package:hello_flutter/shared/components/constans.dart';
+import 'package:hello_flutter/shared/styles/colors.dart';
+
+class ChatBody extends StatelessWidget{
+
+  late SocialUserData user;
+  late String userId;
+
+  ChatBody({
+    required this.user,
+    required this.userId,
+  });
+  var messageController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Builder(
+      builder: (context) {
+        SocialCubit.getInstance(context).getAllMessages(receiverId: userId);
+        return BlocConsumer<SocialCubit, SocialStates>(
+            listener: (context, state) {},
+            builder: (context, state) {
+               SocialCubit cubit = SocialCubit.getInstance(context);
+
+               return Scaffold(
+                 appBar: AppBar(
+                   titleSpacing: 0.0,
+                   title: Row(
+                     children: [
+                       CircleAvatar(
+                         radius: 20.0,
+                         backgroundImage: NetworkImage(
+                           user.image??ProfImg,
+                         ),
+                       ),
+                       SizedBox(
+                         width: 15.0,
+                       ),
+                       Text(
+                         user.name,
+                       ),
+                     ],
+                   ),
+                 ),
+                 body: Conditional.single(
+                     context: context,
+                     conditionBuilder: (context) => true ,
+                     widgetBuilder: (context) =>  Padding(
+                       padding: const EdgeInsets.all(20.0),
+                       child: Column(
+                         children: [
+                           Expanded(
+                             child: ListView.separated(
+                               physics: BouncingScrollPhysics(),
+                               itemBuilder: (context, index)
+                               {
+                                 var message = cubit.messages[index];
+
+                                 if(Uid == message.senderId)
+                                   return buildMyMessage(message,context);
+                                 else
+                                  return buildMessage(message,context);
+                               },
+                               separatorBuilder: (context, index) => SizedBox(
+                                 height: 15.0,
+                               ),
+                               itemCount: cubit.messages.length,
+                             ),
+                           ),
+                           Container(
+                             decoration: BoxDecoration(
+                               border: Border.all(
+                                 color: Colors.grey,
+                                 width: 1.0,
+                               ),
+                               borderRadius: BorderRadius.circular(
+                                 15.0,
+                               ),
+                             ),
+                             clipBehavior: Clip.antiAliasWithSaveLayer,
+                             child: Row(
+                               children: [
+                                 Expanded(
+                                   child: Padding(
+                                     padding: const EdgeInsets.symmetric(
+                                       horizontal: 15.0,
+                                     ),
+                                     child: TextFormField(
+                                       controller: messageController,
+                                       decoration: InputDecoration(
+                                         border: InputBorder.none,
+                                         hintText: 'type your message here ...',
+                                       ),
+                                     ),
+                                   ),
+                                 ),
+                                 Container(
+                                   height: 50.0,
+                                   color: defaultColor,
+                                   child: MaterialButton(
+                                     onPressed: () {
+                                       cubit.sendMessage(
+                                         receiverId: userId,
+                                         dateTime: DateTime.now().toString(),
+                                         mess: messageController.text,
+                                       );
+                                       messageController.text = "";
+                                     },
+                                     minWidth: 1.0,
+                                     child: Icon(
+                                       Icons.send,
+                                       size: 16.0,
+                                       color: Colors.white,
+                                     ),
+                                   ),
+                                 ),
+                               ],
+                             ),
+                           ),
+                         ],
+                       ),
+                     ),
+                     fallbackBuilder: (context) => Center(child: CircularProgressIndicator()),
+                 ),
+               );
+           }
+        );
+      }
+    );
+  }
+
+  Widget buildMessage(SocialMessageData model,context) => Align(
+    alignment: AlignmentDirectional.centerStart,
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: BorderRadiusDirectional.only(
+          bottomEnd: Radius.circular(
+            10.0,
+          ),
+          topStart: Radius.circular(
+            10.0,
+          ),
+          topEnd: Radius.circular(
+            10.0,
+          ),
+        ),
+      ),
+      padding: EdgeInsets.symmetric(
+        vertical: 5.0,
+        horizontal: 10.0,
+      ),
+      child: Text(
+        model.text,
+        style: Theme.of(context).textTheme.subtitle1
+
+      ),
+    ),
+  );
+
+  Widget buildMyMessage(SocialMessageData model,context) => Align(
+    alignment: AlignmentDirectional.centerEnd,
+    child: Container(
+      decoration: BoxDecoration(
+        color: defaultColor.withOpacity(
+          .2,
+        ),
+        borderRadius: BorderRadiusDirectional.only(
+          bottomStart: Radius.circular(
+            10.0,
+          ),
+          topStart: Radius.circular(
+            10.0,
+          ),
+          topEnd: Radius.circular(
+            10.0,
+          ),
+        ),
+      ),
+      padding: EdgeInsets.symmetric(
+        vertical: 5.0,
+        horizontal: 10.0,
+      ),
+      child: Text(
+        model.text,
+        style: Theme.of(context).textTheme.subtitle1
+
+      ),
+    ),
+  );
+
+
+}
