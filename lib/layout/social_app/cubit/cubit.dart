@@ -51,6 +51,7 @@ class SocialCubit extends Cubit<SocialStates>{
   List<int> postsComments =[];
   List<SocialUserData> users = [];
   List<String> usersId = [];
+  var picker = ImagePicker();
 
   void getUSerData(){
      emit(SocialLoadingUserDataState());
@@ -98,12 +99,15 @@ class SocialCubit extends Cubit<SocialStates>{
    required String mess,
     required String dateTime,
     required String receiverId,
+    String? image,
 }){
     SocialMessageData messageData = SocialMessageData(
         senderId: Uid,
         receiverId: receiverId,
-        text: mess, dateTime: dateTime);
-
+        text: mess, dateTime: dateTime,
+        image: image
+    );
+    print(messageData.getMessageData().toString());
     FirebaseFirestore.instance
         .collection('users')
         .doc(Uid)
@@ -131,6 +135,46 @@ class SocialCubit extends Cubit<SocialStates>{
     });
 
   }
+
+  File? messImage;
+  Future<void> UploadMessImage() async {
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if(image != null){
+      messImage = File(image.path);
+      emit(SocialSendMessageImageSuccessState());
+    }else{
+      emit(SocialSendMessageImageErrorState());
+    }
+
+  }
+
+  void sendImageMessage({
+    required String mess,
+    required String dateTime,
+    required String receiverId,
+  }){
+    emit(SocialUploadImagePostLoading());
+    firebase_storage.FirebaseStorage.instance.ref()
+        .child("messages/${Uri.file(messImage!.path).pathSegments.last}")
+        .putFile(messImage!)
+        .then((value) {
+      value.ref.getDownloadURL()
+          .then((url) {
+             sendMessage(mess: mess, dateTime: dateTime,
+                 receiverId: receiverId,image: url );
+
+      }).catchError((error){
+        emit(SocialUploadImagePostError());
+      });
+    })
+        .catchError((error){
+      emit(SocialUploadImagePostError());
+    });
+
+
+  }
+
 
   void getAllMessages({
     required String receiverId,
@@ -196,7 +240,6 @@ class SocialCubit extends Cubit<SocialStates>{
   }
 
   File? profileImage;
- var picker = ImagePicker();
 
 Future<void> ChangeProfileImage() async {
   final XFile? image = await picker.pickImage(source: ImageSource.gallery);
@@ -384,8 +427,7 @@ void UploadProfileImage({
     FirebaseFirestore.instance.collection("posts")
         .doc(postsId[index])
         .collection("comments")
-        .doc(Uid)
-        .set({
+        .add({
       "comment": text
     }).then((value) {
       postsComments[index] ++;

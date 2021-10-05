@@ -3,11 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hello_flutter/layout/shop_app/cubit/cubit.dart';
 import 'package:hello_flutter/layout/social_app/cubit/cubit.dart';
 import 'package:hello_flutter/layout/social_app/social_app_layout.dart';
 import 'package:hello_flutter/modules/news_app/cubit/cubit.dart';
-import 'package:hello_flutter/modules/shop_app/shop_log_in.dart';
 import 'package:hello_flutter/shared/bloc_observer.dart';
 import 'package:hello_flutter/shared/components/components.dart';
 import 'package:hello_flutter/shared/components/constans.dart';
@@ -16,14 +16,13 @@ import 'package:hello_flutter/shared/cubit/states.dart';
 import 'package:hello_flutter/shared/network/local/cacheHelper.dart';
 import 'package:hello_flutter/shared/network/remote/news_dio_helper.dart';
 import 'package:hello_flutter/shared/network/remote/shop_dio_helper.dart';
+import 'package:hello_flutter/shared/network/remote/social_dio_helper.dart';
 import 'package:hello_flutter/shared/styles/themes.dart';
 
 import 'modules/social_app/social_log_in.dart';
 
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print(message.data.toString());
-  defaultToast(msg: "on back ground Message");
 }
 
 void main() async {
@@ -31,25 +30,29 @@ void main() async {
   await Firebase.initializeApp();
   
   var token = await FirebaseMessaging.instance.getToken();
+  print("token");
   print(token);
 
   //foreground
   FirebaseMessaging.onMessage.listen((event) {
-    print(event.data.toString());
-    defaultToast(msg: "on foreground Message");
+    defaultToast(
+        msg: event.notification!.title??"message",
+        length: Toast.LENGTH_LONG,
+        color: Colors.deepOrange);
   });
 
   //when click
-  FirebaseMessaging.onMessageOpenedApp.listen((event) {
-    print(event.data.toString());
-    defaultToast(msg: "on Open Message");
-  });
+  // FirebaseMessaging.onMessageOpenedApp.listen((event) {
+  //   print(event.data.toString());
+  //   defaultToast(msg: "on Open Message");
+  // });
   //when back ground
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
 
   NewsDioHelper.init();
   ShopDioHelper.init();
+  SocialDioHelper.init();
   await CacheHelper.init();
   Bloc.observer = MyBlocObserver();
 

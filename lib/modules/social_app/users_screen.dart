@@ -1,16 +1,13 @@
-import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:hello_flutter/layout/social_app/cubit/cubit.dart';
 import 'package:hello_flutter/layout/social_app/cubit/states.dart';
-import 'package:hello_flutter/models/social_app/user_data.dart';
 import 'package:hello_flutter/modules/social_app/edit_profile.dart';
 import 'package:hello_flutter/shared/components/components.dart';
 import 'package:hello_flutter/shared/components/constans.dart';
-import 'package:image_picker/image_picker.dart';
 
 class SocialUserScreen extends StatelessWidget{
   @override
@@ -19,7 +16,7 @@ class SocialUserScreen extends StatelessWidget{
     return BlocConsumer<SocialCubit,SocialStates>(
       listener: (context,state){},
       builder: (context,state){
-        SocialCubit cubit = SocialCubit.getInstance(context);
+        // SocialCubit cubit = SocialCubit.getInstance(context);
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -178,6 +175,17 @@ class SocialUserScreen extends StatelessWidget{
                   ),
                 ],
               ),
+              TextButton(
+                  onPressed: (){
+                    FirebaseMessaging.instance.subscribeToTopic(Uid);
+                  },
+                  child: Text("subscribe")),
+              TextButton(
+                  onPressed: (){
+                    FirebaseMessaging.instance.unsubscribeFromTopic(Uid);
+                  },
+                  child: Text("un subscribe")),
+
             ],
           ),
         );

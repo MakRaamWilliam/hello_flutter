@@ -65,3 +65,7 @@ class SocialSendMessageErrorState extends SocialStates{}
 class SocialSendMessageSuccessState extends SocialStates{}
 
 class SocialGetMessagesSuccessState extends SocialStates{}
+
+class SocialSendMessageImageErrorState extends SocialStates{}
+
+class SocialSendMessageImageSuccessState extends SocialStates{}

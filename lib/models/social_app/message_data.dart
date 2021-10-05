@@ -4,12 +4,14 @@ class SocialMessageData
   late  String receiverId;
   late String text;
   late String dateTime;
+  String? image;
 
   SocialMessageData({
     required this.senderId,
     required this.receiverId,
     required this.text,
     required this.dateTime,
+     this.image,
   });
 
   Map<String,dynamic> getMessageData(){
@@ -18,6 +20,7 @@ class SocialMessageData
       "text": text,
       "receiverId": receiverId,
       "dateTime": dateTime,
+      "image":image,
     };
   }
   // named constructor
@@ -27,6 +30,7 @@ class SocialMessageData
     receiverId = json['receiverId'];
     text = json['text'];
     dateTime = json['dateTime'];
+    image = json['image'];
   }
 }
 

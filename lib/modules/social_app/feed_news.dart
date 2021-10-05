@@ -9,6 +9,8 @@ import 'package:hello_flutter/shared/components/constans.dart';
 import 'package:hello_flutter/shared/styles/colors.dart';
 
 class FeedsScreen extends StatelessWidget {
+  var commentController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SocialCubit,SocialStates>(
@@ -180,71 +182,10 @@ class FeedsScreen extends StatelessWidget {
               maxLines: 8,
               overflow: TextOverflow.ellipsis,
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: 10.0,
-                top: 5.0,
-              ),
-              child: Container(
-                width: double.infinity,
-                child: Wrap(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(
-                        end: 6.0,
-                      ),
-                      child: Container(
-                        height: 25.0,
-                        child: MaterialButton(
-                          onPressed: () {},
-                          minWidth: 1.0,
-                          padding: EdgeInsets.zero,
-                          child: Text(
-                            '#software',
-                            style:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .caption!
-                                .copyWith(
-                              color: defaultColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(
-                        end: 6.0,
-                      ),
-                      child: Container(
-                        height: 25.0,
-                        child: MaterialButton(
-                          onPressed: () {},
-                          minWidth: 1.0,
-                          padding: EdgeInsets.zero,
-                          child: Text(
-                            '#flutter',
-                            style:
-                            Theme
-                                .of(context)
-                                .textTheme
-                                .caption!
-                                .copyWith(
-                              color: defaultColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
             if(posts[index]['postImage'] != null &&
                 posts[index]['postImage'] != "" )
               Container(
-                height: 250.0,
+                height: 400.0,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(
@@ -338,39 +279,39 @@ class FeedsScreen extends StatelessWidget {
             ),
             Row(
               children: [
-                InkWell(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CircleAvatar(
-                        radius: 18.0,
-                        backgroundImage: NetworkImage(
-                            userData.image ?? ProfImg
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircleAvatar(
+                      radius: 18.0,
+                      backgroundImage: NetworkImage(
+                          userData.image ?? ProfImg
+                      ),
+                    ),
+                    SizedBox(
+                      width: 15.0,
+                    ),
+                    Container(
+                      width: 200,
+                      child:
+                      TextFormField(
+                        maxLines: 1,
+                        decoration: const InputDecoration(
+                          hintText: ('write a comment ...'),
+                          border: InputBorder.none,
                         ),
                       ),
-                      SizedBox(
-                        width: 15.0,
-                      ),
-                      Container(
-                        width: 250,
-                        child:
-                        TextFormField(
-                          maxLines: 1,
-                          onFieldSubmitted: (value){
-                            cubit.commentClick(index, value);
-                          },
-                          decoration: const InputDecoration(
-                            hintText: ('write a comment ...'),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-
-                    ],
-                  ),
-                  onTap: () {},
+                    ),
+                  ],
                 ),
                 Spacer(),
+                IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: () {
+                    cubit.commentClick(index, commentController.text);
+                    commentController.text = "";
+                  },
+                ) ,
                 InkWell(
                   child: Row(
                     children: [

@@ -7,6 +7,7 @@ import 'package:hello_flutter/layout/social_app/cubit/states.dart';
 import 'package:hello_flutter/models/social_app/message_data.dart';
 import 'package:hello_flutter/models/social_app/user_data.dart';
 import 'package:hello_flutter/shared/components/constans.dart';
+import 'package:hello_flutter/shared/network/remote/social_dio_helper.dart';
 import 'package:hello_flutter/shared/styles/colors.dart';
 
 class ChatBody extends StatelessWidget{
@@ -103,17 +104,61 @@ class ChatBody extends StatelessWidget{
                                      ),
                                    ),
                                  ),
+                                 if(cubit.messImage == null)
+                                   Container(
+                                   height: 50.0,
+                                   color: defaultColor,
+                                   child: MaterialButton(
+                                     onPressed: () {
+                                       cubit.UploadMessImage();
+                                     },
+                                     minWidth: 1.0,
+                                     child: Icon(
+                                       Icons.image,
+                                       size: 16.0,
+                                       color: Colors.white,
+                                     ),
+                                   ),
+                                 ),
+                                 if(cubit.messImage != null)
+                                   Container(
+                                     height: 50.0,
+                                     color: defaultColor,
+                                     child: Image(
+                                       image: FileImage(cubit.messImage!),
+                                     ),
+                                   ),
+
                                  Container(
                                    height: 50.0,
                                    color: defaultColor,
                                    child: MaterialButton(
                                      onPressed: () {
-                                       cubit.sendMessage(
-                                         receiverId: userId,
-                                         dateTime: DateTime.now().toString(),
-                                         mess: messageController.text,
-                                       );
+                                       if(cubit.messImage == null) {
+                                         cubit.sendMessage(
+                                           receiverId: userId,
+                                           dateTime: DateTime.now().toString(),
+                                           mess: messageController.text,
+                                         );
+                                       }else{
+                                         cubit.sendImageMessage(
+                                           receiverId: userId,
+                                           dateTime: DateTime.now().toString(),
+                                           mess: messageController.text,
+                                         );
+
+                                       }
+                                       cubit.messImage = null;
+                                       SocialDioHelper.postData(
+                                           data: {
+                                             "to":"/topics/${userId}",
+                                             "notification":{
+                                               "body":"${messageController.text}",
+                                               "title":"${userData.name}"
+                                             }
+                                           });
                                        messageController.text = "";
+
                                      },
                                      minWidth: 1.0,
                                      child: Icon(
@@ -159,10 +204,18 @@ class ChatBody extends StatelessWidget{
         vertical: 5.0,
         horizontal: 10.0,
       ),
-      child: Text(
-        model.text,
-        style: Theme.of(context).textTheme.subtitle1
+      child: Column(
+        children: [
+          Text(
+            model.text,
+            style: Theme.of(context).textTheme.subtitle1
 
+          ),
+          if(model.image != null)
+            Image.network(
+              model.image??"",
+            )
+        ],
       ),
     ),
   );
@@ -190,10 +243,19 @@ class ChatBody extends StatelessWidget{
         vertical: 5.0,
         horizontal: 10.0,
       ),
-      child: Text(
-        model.text,
-        style: Theme.of(context).textTheme.subtitle1
+      child: Column(
+        children: [
+          Text(
+            model.text,
+            style: Theme.of(context).textTheme.subtitle1
 
+          ),
+          if(model.image != null)
+            Image.network(
+              model.image??"",
+            )
+
+        ],
       ),
     ),
   );
