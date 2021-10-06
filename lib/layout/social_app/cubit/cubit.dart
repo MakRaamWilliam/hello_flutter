@@ -206,13 +206,13 @@ class SocialCubit extends Cubit<SocialStates>{
     myLikes = [];
     postsComments = [];
     FirebaseFirestore.instance.collection("posts")
-    .get()
-    .then((value) {
+        .get()
+        .then((value) {
       for(var element in value.docs){
         element.reference.collection("likes").get()
             .then((value2) {
           element.reference.collection("comments").get()
-          .then((comm){
+              .then((comm){
             postsComments.add(comm.size);
             postsLikes.add(value2.size);
             postsId.add(element.id);
@@ -225,8 +225,9 @@ class SocialCubit extends Cubit<SocialStates>{
               }
             }
             myLikes.add(liked);
-            if(posts.length == value.docs.length)
+            if(posts.length == value.docs.length) {
               emit(SocialSuccessUserDataState());
+            }
             // print(myLikes);
 
           });
@@ -234,14 +235,14 @@ class SocialCubit extends Cubit<SocialStates>{
       }
     }).catchError((error){
       emit(SocialErrorUserDataState());
-      print(error.toString());
+      // print(error.toString());
     });
 
   }
 
   File? profileImage;
 
-Future<void> ChangeProfileImage() async {
+  Future<void> ChangeProfileImage() async {
   final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
   if(image != null){
@@ -254,7 +255,7 @@ Future<void> ChangeProfileImage() async {
 
 }
 
-void updateProfileData({
+  void updateProfileData({
   required String name,
   required String bio,
  }){
@@ -343,6 +344,7 @@ void UploadProfileImage({
       "name": userData.name,
       "postImage": "",
       "text": text,
+      "profileImage":userData.image,
     }).then((value) {
       emit(SocialUploadPostSuccess());
     })
@@ -372,6 +374,7 @@ void UploadProfileImage({
           "name": userData.name,
           "postImage": url,
           "text": text,
+          "profileImage":userData.image,
         }).then((value) {
           emit(SocialUploadPostSuccess());
         })

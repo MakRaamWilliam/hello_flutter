@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hello_flutter/layout/native_battery.dart';
 import 'package:hello_flutter/layout/shop_app/cubit/cubit.dart';
 import 'package:hello_flutter/layout/social_app/cubit/cubit.dart';
 import 'package:hello_flutter/layout/social_app/social_app_layout.dart';

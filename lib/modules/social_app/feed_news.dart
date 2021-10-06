@@ -18,74 +18,83 @@ class FeedsScreen extends StatelessWidget {
       builder: (context,state){
         SocialCubit cubit = SocialCubit.getInstance(context);
         return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              'News Feeds',
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(
-                  Icons.search,
-                ),
-                onPressed: () {
-                  // NavgPushTo(context, SearchScreen(),);
-                },
-              ),
-            ],
-          ),
-          body: Conditional.single(
-             context: context,
-            conditionBuilder: (context) =>
-            cubit.posts.length > 0  ,
-            widgetBuilder: (context) => SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  Card(
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    elevation: 5.0,
-                    margin: EdgeInsets.all(
-                      8.0,
-                    ),
-                    child: Stack(
-                      alignment: AlignmentDirectional.bottomEnd,
-                      children: [
-                        Image(
-                          image: NetworkImage(
-                            'https://image.freepik.com/free-photo/horizontal-shot-smiling-curly-haired-woman-indicates-free-space-demonstrates-place-your-advertisement-attracts-attention-sale-wears-green-turtleneck-isolated-vibrant-pink-wall_273609-42770.jpg',
-                          ),
-                          fit: BoxFit.cover,
-                          height: 200.0,
-                          width: double.infinity,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'communicate with friends',
-                            // style: Theme.of(context).textTheme.subtitle1.copyWith(
-                            //   color: Colors.white,
-                            // ),
-                          ),
-                        ),
-                      ],
-                    ),
+          body: NestedScrollView(
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
+              return  <Widget>[
+                SliverAppBar(
+                  title: const Text(
+                    'News Feeds',
                   ),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => buildPostItem(context,index,cubit.posts),
-                    separatorBuilder: (context, index) => SizedBox(
+                  actions: [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.search,
+                      ),
+                      onPressed: () {
+                        // NavgPushTo(context, SearchScreen(),);
+                      },
+                    ),
+                  ],
+                ),
+
+              ];
+
+
+            },
+            body: Conditional.single(
+              context: context,
+              conditionBuilder: (context) =>
+              cubit.posts.isNotEmpty  ,
+              widgetBuilder: (context) => SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    Card(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      elevation: 5.0,
+                      margin: const EdgeInsets.all(
+                        8.0,
+                      ),
+                      child: Stack(
+                        alignment: AlignmentDirectional.bottomEnd,
+                        children: const [
+                          Image(
+                            image: NetworkImage(
+                              'https://image.freepik.com/free-photo/horizontal-shot-smiling-curly-haired-woman-indicates-free-space-demonstrates-place-your-advertisement-attracts-attention-sale-wears-green-turtleneck-isolated-vibrant-pink-wall_273609-42770.jpg',
+                            ),
+                            fit: BoxFit.cover,
+                            height: 200.0,
+                            width: double.infinity,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'communicate with friends',
+                              // style: Theme.of(context).textTheme.subtitle1.copyWith(
+                              //   color: Colors.white,
+                              // ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => buildPostItem(context,index,cubit.posts),
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 8.0,
+                      ),
+                      itemCount: cubit.posts.length,
+                    ),
+                    const SizedBox(
                       height: 8.0,
                     ),
-                    itemCount: cubit.posts.length,
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                ],
+                  ],
+                ),
               ),
+              fallbackBuilder: (context)=> const Center(child: CircularProgressIndicator()),
             ),
-            fallbackBuilder: (context)=> Center(child: CircularProgressIndicator()),
           ),
         );
       },
@@ -97,7 +106,7 @@ class FeedsScreen extends StatelessWidget {
     return Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 5.0,
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         horizontal: 8.0,
       ),
       child: Padding(
@@ -110,10 +119,10 @@ class FeedsScreen extends StatelessWidget {
                 CircleAvatar(
                   radius: 25.0,
                   backgroundImage: NetworkImage(
-                    'https://image.freepik.com/free-photo/skeptical-woman-has-unsure-questioned-expression-points-fingers-sideways_273609-40770.jpg',
+                      posts[index]['profileImage']??ProfImg
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 15.0,
                 ),
                 Expanded(
@@ -124,14 +133,14 @@ class FeedsScreen extends StatelessWidget {
                         children: [
                           Text(
                             posts[index]['name'],
-                            style: TextStyle(
+                            style: const TextStyle(
                               height: 1.4,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5.0,
                           ),
-                          Icon(
+                          const Icon(
                             Icons.check_circle,
                             color: defaultColor,
                             size: 16.0,
@@ -151,11 +160,11 @@ class FeedsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 15.0,
                 ),
                 IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.more_horiz,
                     size: 16.0,
                   ),
@@ -213,16 +222,16 @@ class FeedsScreen extends StatelessWidget {
                         ),
                         child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.favorite,
                               size: 16.0,
                               color: Colors.red,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5.0,
                             ),
                             Text(
-                                  cubit.postsLikes[index].toString(),
+                              cubit.postsLikes[index].toString(),
                               style: Theme
                                   .of(context)
                                   .textTheme
@@ -243,12 +252,12 @@ class FeedsScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.chat,
                               size: 16.0,
                               color: Colors.amber,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5.0,
                             ),
                             Text(
@@ -288,14 +297,15 @@ class FeedsScreen extends StatelessWidget {
                           userData.image ?? ProfImg
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 15.0,
                     ),
-                    Container(
-                      width: 200,
+                    SizedBox(
+                      width: 170,
                       child:
                       TextFormField(
                         maxLines: 1,
+                        controller: commentController,
                         decoration: const InputDecoration(
                           hintText: ('write a comment ...'),
                           border: InputBorder.none,
@@ -304,9 +314,11 @@ class FeedsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
+                // if(commentController.text != "")
                 IconButton(
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send),
+                  color: defaultColor,
                   onPressed: () {
                     cubit.commentClick(index, commentController.text);
                     commentController.text = "";
@@ -316,11 +328,11 @@ class FeedsScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Icon(
-                       cubit.myLikes[index]? Icons.favorite :Icons.favorite_border,
+                        cubit.myLikes[index]? Icons.favorite :Icons.favorite_border,
                         size: 16.0,
                         color: Colors.red,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5.0,
                       ),
                       Text(
@@ -333,10 +345,11 @@ class FeedsScreen extends StatelessWidget {
                     ],
                   ),
                   onTap: () {
-                    if(cubit.myLikes[index])
-                       cubit.dislikeClick(index);
-                    else
+                    if(cubit.myLikes[index]) {
+                      cubit.dislikeClick(index);
+                    } else {
                       cubit.likeClick(index);
+                    }
                   },
                 ),
               ],
