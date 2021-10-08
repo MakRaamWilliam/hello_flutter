@@ -29,17 +29,17 @@ bool isLast = false;
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   List<BoardingPage> boardingList = [
-    BoardingPage(imgSrc:"assets/images/onboard_1.jpg",
-        screenBody: "Screen Body 1",
-        screenTitle: "Screen Title 1"
+    BoardingPage(imgSrc:"assets/images/splash_1.png",
+        screenBody: "",
+        screenTitle: "Welcome to Tokoto, Let’s shop!"
     ),
-    BoardingPage(imgSrc:"assets/images/onboard_1.jpg",
-        screenBody: "Screen Body 2",
-        screenTitle: "Screen Title 2"
+    BoardingPage(imgSrc:"assets/images/splash_2.png",
+        screenBody: "",
+        screenTitle: "We help people conect with store \naround United State of America"
     ),
-    BoardingPage(imgSrc:"assets/images/onboard_1.jpg",
-        screenBody: "Screen Body 3",
-        screenTitle: "Screen Title 3"
+    BoardingPage(imgSrc:"assets/images/splash_3.png",
+        screenBody: "",
+        screenTitle: "We show the easy way to shop. \nJust stay at home with us"
     ),
 
   ];

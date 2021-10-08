@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hello_flutter/layout/main_screen.dart';
 import 'package:hello_flutter/layout/native_battery.dart';
 import 'package:hello_flutter/layout/shop_app/cubit/cubit.dart';
 import 'package:hello_flutter/layout/social_app/cubit/cubit.dart';
@@ -20,6 +21,7 @@ import 'package:hello_flutter/shared/network/remote/shop_dio_helper.dart';
 import 'package:hello_flutter/shared/network/remote/social_dio_helper.dart';
 import 'package:hello_flutter/shared/styles/themes.dart';
 
+import 'modules/shop_app/on_boarding_screen.dart';
 import 'modules/social_app/social_log_in.dart';
 
 
@@ -50,7 +52,6 @@ void main() async {
   //when back ground
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-
   NewsDioHelper.init();
   ShopDioHelper.init();
   SocialDioHelper.init();
@@ -75,39 +76,21 @@ class MyApp extends StatelessWidget{
        child: BlocConsumer< AppCubit, AppStates>(
            listener: (context,state) {},
            builder: (context, state) {
-             late Widget widget;
-             bool? isDark = CacheHelper.getBool(key: "isDark");
-             bool? isBoarding = CacheHelper.getBool(key: "isBoarding");
-             bool? isToken = CacheHelper.getBool(key: "isToken");
-             String?  uid = CacheHelper.getString(key: "uid");
 
-             if(uid == null ){
-               widget = SocialLogInScreen();
-             }else{
-               Uid = uid;
-               widget = SocialLayout();
-             }
-             // if(isDark == null)
-             //   isDark = false;
-             // if(isBoarding == null) {
-             //   isBoarding = false;
-             //   widget = OnBoardingScreen();
-             // }else{
-             //   if(isToken != null)
-             //      widget = ShopLayout();
-             //   else
-             //     widget = ShopLogInScreen();
-             // }
+             bool? isDark = CacheHelper.getBool(key: "isDark");
+             if(isDark == null)
+               isDark = false;
+
              return  MaterialApp(
                home: Directionality
                  (
                    textDirection: TextDirection.ltr,
-                   child: widget
+                   child: MainScreen()
                ),
                theme: lightTheme,
                darkTheme: darkTheme,
-               themeMode: ThemeMode.light,
-               // dark ? ThemeMode.dark : ThemeMode.light ,
+               themeMode:
+               isDark ? ThemeMode.dark : ThemeMode.light ,
              );
            }
        ),

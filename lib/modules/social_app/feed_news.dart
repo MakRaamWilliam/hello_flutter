@@ -140,7 +140,7 @@ class FeedsScreen extends StatelessWidget {
                           const SizedBox(
                             width: 5.0,
                           ),
-                          const Icon(
+                           Icon(
                             Icons.check_circle,
                             color: defaultColor,
                             size: 16.0,
