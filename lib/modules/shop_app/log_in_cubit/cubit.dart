@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_flutter/models/shop_model/login_model.dart';
@@ -21,14 +22,14 @@ class ShopLoginCubit extends Cubit<ShopLoginStates> {
   }
 
   void loginClick({
-  required String user,
+  required String email,
   required String password,
   }){
     emit(ShopLoginLoadingState());
     ShopDioHelper.postData(
         url: Login,
         data: {
-          'email':user,
+          'email':email,
           'password': password
         }).then((value) {
           shopLoginModel = ShopLoginModel.fromJson(value.data);
@@ -40,6 +41,17 @@ class ShopLoginCubit extends Cubit<ShopLoginStates> {
       print(error.toString());
     });
 
+    // FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password)
+    //     .then((value) {
+    //         emit(ShopLoginSuccessState(shopLoginModel));
+    //         print(value.user!.email);
+    //         print(value.user!.uid);
+    //      }).catchError((error){
+    //     emit(ShopLoginErrorState(error.toString()));
+    //     print(error.toString());
+    //   });
 
-  }
+
+
+    }
 }

@@ -1,5 +1,6 @@
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hello_flutter/models/shop_model/login_model.dart';
 import 'package:hello_flutter/models/shop_model/register_model.dart';
@@ -28,25 +29,36 @@ class ShopRegisterCubit extends Cubit<ShopRegistersStates> {
     required String password,
    }){
     emit(ShopRegisterLoadingState());
-    ShopDioHelper.postData(
-    url: Register,
-    data: {
-      'name': name,
-      'phone': phone,
-      'email': email,
-      'password': password,
+   //  ShopDioHelper.postData(
+   //  url: Register,
+   //  data: {
+   //    'name': name,
+   //    'phone': phone,
+   //    'email': email,
+   //    'password': password,
+   //  }
+   // ).then((value) {
+   //    emit(ShopRegisterSuccessState());
+   //    status = value.data['status'];
+   //    mess = value.data['message'];
+   //    print(status);
+   //    print(mess);
+   //  }).catchError((error){
+   //    emit(ShopRegisterErrorState(error.toString()));
+   //  });
+   print("ooooooooooooo");
+   FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password
+        ).then((value) {
+           print("objecttttttt");
+           emit(ShopRegisterSuccessState());
+           print(value.user!.email);
+           print(value.user!.uid);
+         }).catchError((error){
+           emit(ShopRegisterErrorState(error.toString()));
+           print(error.toString());
+         });
+
+
     }
-   ).then((value) {
-      emit(ShopRegisterSuccessState());
-      status = value.data['status'];
-      mess = value.data['message'];
-      print(status);
-      print(mess);
-
-    }).catchError((error){
-      emit(ShopRegisterErrorState(error.toString()));
-    });
-
-}
 
 }

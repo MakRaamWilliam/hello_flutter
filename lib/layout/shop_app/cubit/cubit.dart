@@ -48,7 +48,7 @@ class ShopCubit extends Cubit<ShopStates>{
     {
       homeModel = HomeModel.fromJson(value.data);
 
-      print(homeModel.status);
+      // print(homeModel.status);
 
       emit(ShopSuccessHomeDataState());
     }).catchError((error)
@@ -71,7 +71,7 @@ void getSearch(String text){
     {
       // print((value.data));
       searchModel = SearchModel.fromJson(value.data);
-      print(searchModel.status);
+      // print(searchModel.status);
 
 
       emit(ShopSuccessSearchDataState());
@@ -91,7 +91,7 @@ void getSearch(String text){
     ShopDioHelper.getData(
         url: "categories"
     ).then((value) {
-      print(value.data);
+      // print(value.data);
       categoriesModel = CategoriesModel.fromJson(value.data);
       print(categoriesModel.status);
       emit(ShopSuccessCategoriesState());

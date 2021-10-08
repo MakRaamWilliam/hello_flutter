@@ -16,7 +16,7 @@ List<String> navStatus = ["new","done","archive"];
 
 bool isBottomSheetShow = false;
 
-class home_screen extends StatelessWidget {
+class ToDo_home_screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
