@@ -82,6 +82,7 @@ class MyApp extends StatelessWidget{
                isDark = false;
 
              return  MaterialApp(
+               debugShowCheckedModeBanner: false,
                home: Directionality
                  (
                    textDirection: TextDirection.ltr,

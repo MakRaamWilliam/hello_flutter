@@ -6,6 +6,8 @@ import 'package:hello_flutter/layout/social_app/cubit/cubit.dart';
 import 'package:hello_flutter/layout/social_app/cubit/states.dart';
 import 'package:hello_flutter/models/social_app/message_data.dart';
 import 'package:hello_flutter/models/social_app/user_data.dart';
+import 'package:hello_flutter/modules/social_app/chat_user.dart';
+import 'package:hello_flutter/shared/components/components.dart';
 import 'package:hello_flutter/shared/components/constans.dart';
 import 'package:hello_flutter/shared/network/remote/social_dio_helper.dart';
 import 'package:hello_flutter/shared/styles/colors.dart';
@@ -46,8 +48,13 @@ class ChatBody extends StatelessWidget{
                        SizedBox(
                          width: 15.0,
                        ),
-                       Text(
-                         user.name,
+                       InkWell(
+                         onTap: (){
+                           NavgPushTo(context, ChatUser(user: user, userId: userId));
+                         },
+                         child: Text(
+                           user.name,
+                         ),
                        ),
                      ],
                    ),
