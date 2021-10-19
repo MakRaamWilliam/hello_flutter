@@ -22,10 +22,10 @@ class ChatBody extends StatelessWidget{
     required this.userId,
   });
   var messageController = TextEditingController();
-
+  bool first = true;
   @override
   Widget build(BuildContext context) {
-
+    final ScrollController listScrollController = ScrollController();
     return Builder(
       builder: (context) {
         SocialCubit.getInstance(context).getAllMessages(receiverId: userId);
@@ -37,26 +37,26 @@ class ChatBody extends StatelessWidget{
                return Scaffold(
                  appBar: AppBar(
                    titleSpacing: 0.0,
-                   title: Row(
-                     children: [
-                       CircleAvatar(
-                         radius: 20.0,
-                         backgroundImage: NetworkImage(
-                           user.image??ProfImg,
+                   title: InkWell(
+                     onTap: (){
+                       NavgPushTo(context, ChatUser(user: user, userId: userId));
+                     },
+                     child: Row(
+                       children: [
+                         CircleAvatar(
+                           radius: 20.0,
+                           backgroundImage: NetworkImage(
+                             user.image??ProfImg,
+                           ),
                          ),
-                       ),
-                       SizedBox(
-                         width: 15.0,
-                       ),
-                       InkWell(
-                         onTap: (){
-                           NavgPushTo(context, ChatUser(user: user, userId: userId));
-                         },
-                         child: Text(
+                         const SizedBox(
+                           width: 15.0,
+                         ),
+                         Text(
                            user.name,
                          ),
-                       ),
-                     ],
+                       ],
+                     ),
                    ),
                  ),
                  body: Conditional.single(
@@ -68,11 +68,11 @@ class ChatBody extends StatelessWidget{
                          children: [
                            Expanded(
                              child: ListView.separated(
+                               controller: listScrollController,
                                physics: BouncingScrollPhysics(),
                                itemBuilder: (context, index)
                                {
                                  var message = cubit.messages[index];
-
                                  if(Uid == message.senderId)
                                    return buildMyMessage(message,context);
                                  else
@@ -153,7 +153,6 @@ class ChatBody extends StatelessWidget{
                                            dateTime: DateTime.now().toString(),
                                            mess: messageController.text,
                                          );
-
                                        }
                                        cubit.messImage = null;
                                        SocialDioHelper.postData(
@@ -165,6 +164,10 @@ class ChatBody extends StatelessWidget{
                                              }
                                            });
                                        messageController.text = "";
+                                       listScrollController.animateTo(
+                                           listScrollController.position.maxScrollExtent+50,
+                                           duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+                                       // listScrollController.jumpTo(listScrollController.position.maxScrollExtent);
 
                                      },
                                      minWidth: 1.0,

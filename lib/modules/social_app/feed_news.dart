@@ -148,7 +148,7 @@ class FeedsScreen extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        posts[index]['dateTime'],
+                        posts[index]['dateTime'].toString().substring(0,16),
                         style: Theme
                             .of(context)
                             .textTheme
@@ -174,7 +174,7 @@ class FeedsScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
-                vertical: 15.0,
+                vertical: 10.0,
               ),
               child: Container(
                 width: double.infinity,
@@ -193,18 +193,21 @@ class FeedsScreen extends StatelessWidget {
             ),
             if(posts[index]['postImage'] != null &&
                 posts[index]['postImage'] != "" )
-              Container(
-                height: 400.0,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    4.0,
-                  ),
-                  image: DecorationImage(
-                    image: NetworkImage(
-                        posts[index]['postImage']
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Container(
+                  height: 400.0,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                      4.0,
                     ),
-                    fit: BoxFit.cover,
+                    image: DecorationImage(
+                      image: NetworkImage(
+                          posts[index]['postImage']
+                      ),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
