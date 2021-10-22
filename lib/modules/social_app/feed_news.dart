@@ -104,6 +104,7 @@ class FeedsScreen extends StatelessWidget {
   Widget buildPostItem(context,index,posts) {
     SocialCubit cubit = SocialCubit.getInstance(context);
     return Card(
+      // color: HexColor('333739'),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 5.0,
       margin: const EdgeInsets.symmetric(
@@ -133,16 +134,20 @@ class FeedsScreen extends StatelessWidget {
                         children: [
                           Text(
                             posts[index]['name'],
-                            style: const TextStyle(
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(
                               height: 1.4,
                             ),
                           ),
                           const SizedBox(
                             width: 5.0,
                           ),
-                           Icon(
+                          const Icon(
                             Icons.check_circle,
-                            color: defaultColor,
+                            color: Colors.blue,
                             size: 16.0,
                           ),
                         ],
@@ -174,7 +179,7 @@ class FeedsScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
-                vertical: 10.0,
+                vertical: 15.0,
               ),
               child: Container(
                 width: double.infinity,

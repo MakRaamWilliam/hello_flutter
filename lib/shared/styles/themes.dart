@@ -9,7 +9,7 @@ ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Colors.white,
   appBarTheme: AppBarTheme(
     titleSpacing: 20.0,
-    backwardsCompatibility: false,
+    // backwardsCompatibility: false,
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.white,
       statusBarIconBrightness: Brightness.dark,
@@ -49,23 +49,23 @@ ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: HexColor('333739'),
   appBarTheme: AppBarTheme(
     titleSpacing: 20.0,
-    backwardsCompatibility: false,
+    // backwardsCompatibility: false,
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: HexColor('333739'),
       statusBarIconBrightness: Brightness.light,
     ),
     backgroundColor: HexColor('333739'),
     elevation: 0.0,
-    titleTextStyle: TextStyle(
+    titleTextStyle: const TextStyle(
       color: Colors.white,
       fontSize: 20.0,
       fontWeight: FontWeight.bold,
     ),
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: Colors.white,
     ),
   ),
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: Colors.deepOrange,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -75,11 +75,17 @@ ThemeData darkTheme = ThemeData(
     elevation: 20.0,
     backgroundColor: HexColor('333739'),
   ),
-  textTheme: TextTheme(
+  cardColor:HexColor('333739') ,
+
+  textTheme: const TextTheme(
     bodyText1: TextStyle(
       fontSize: 18.0,
       fontWeight: FontWeight.w600,
       color: Colors.white,
+    ),
+    caption: TextStyle(
+      fontSize: 10.0,
+      color: Colors.white70,
     ),
   ),
 
